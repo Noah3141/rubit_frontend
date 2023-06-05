@@ -2,6 +2,12 @@
 @tailwind components;
 @tailwind utilities;
 
+@layer base {
+    .html {
+        @apply bg-stone-950;
+    }
+}
+
 @layer components {
     .my-custom-style {
         /* ... */
