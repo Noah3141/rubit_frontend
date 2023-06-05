@@ -57,7 +57,7 @@ const Home: NextPage = () => {
                     rel="stylesheet"
                 />
             </Head>
-            <main className="min-h-screen bg-stone-950 p-2 pb-16 font-main  text-stone-300 sm:flex sm:flex-col sm:items-center sm:p-8">
+            <main className="min-h-screen bg-stone-950 p-2 pb-16 pt-8 font-main  text-stone-300 sm:flex sm:flex-col sm:items-center sm:p-8">
                 <div className="px-4 transition-all duration-200 sm:w-[600px] md:w-[700px] lg:w-[800px]">
                     <section>
                         <h1 className="mb-2 mt-2 text-center text-5xl font-bold">
