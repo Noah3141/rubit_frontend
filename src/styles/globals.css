@@ -4,7 +4,7 @@
 
 @layer base {
     .html {
-        @apply bg-stone-950;
+        @apply overflow-hidden bg-stone-950;
     }
 }
 
