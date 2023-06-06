@@ -2,14 +2,8 @@
 @tailwind components;
 @tailwind utilities;
 
-@layer base {
+@layer components {
     .html {
         @apply overflow-hidden bg-stone-950;
-    }
-}
-
-@layer components {
-    .my-custom-style {
-        /* ... */
     }
 }
