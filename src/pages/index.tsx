@@ -4,30 +4,35 @@ import Link from "next/link";
 import { MouseEventHandler, useState } from "react";
 import { Triangle } from "react-loader-spinner";
 import Header from "../components/header";
+import RussianSentencer from "../components/russian_sentencer";
+import DownArrowSharp from "~/images/icons/DownArrowSharp";
 
 // !) INCOMING DATA MATCHES OUTGOING FROM RUST
-type VocabEntry = {
-    // Raw vocab | other
-    form: string | null;
-    lemma: string | null;
-    // Verb Pairs | Raw Vocab | Verb Trees
-    imperfective: string | null;
-    perfective: string | null;
-    aspect: "Pf" | "Imp";
-    // Verb Trees | other
-    stem: string | null;
-    prefixes: string[] | null;
-    // Always given
-    frequency: number;
-    // Raw Vocab | other
-    part_of_speech: string | null;
-};
-
-type ListResponse = {
-    list: VocabEntry[];
-    style: string;
+// Raw Vocabulary
+interface RawVocabularyList {
+    entry_list: RawVocabEntry[];
     metadata: string;
-};
+}
+
+interface RawVocabEntry {
+    forms: string[];
+    lemma: string;
+    frequency: number;
+    perfective: boolean | null;
+}
+
+// Verb Pairs
+interface VerbPairList {
+    entry_list: VerbPairEntry[];
+    metadata: string;
+}
+
+interface VerbPairEntry {
+    forms: string[];
+    perfective_lemma: string;
+    imperfective_lemma: string;
+    frequency: number;
+}
 
 enum LinkLanguage {
     Russian = 0,
@@ -40,37 +45,45 @@ const Home: NextPage = () => {
     const [style, setStyle] = useState("Raw Vocabulary");
 
     const [isListLoading, setIsListLoading] = useState<boolean>(false);
-    const [listData, setListData] = useState<ListResponse | undefined>(
+    const [listData, setListData] = useState<RawVocabularyList | undefined>(
         undefined
     );
 
     const generateList = async () => {
-        // !) OUTGOING DATA MATCHES INCOMING PATTERN IN RUST
-        setIsListLoading(true);
-        const res = await fetch("http://127.0.0.1:8000/russian/generate-list", {
-            method: "POST",
-            mode: "cors",
-            body: JSON.stringify({
-                input: input,
-                breadth: breadth,
-                style: style,
-            }),
-            headers: {
-                "Content-Type": "application/json",
-                "Access-Control-Allow-Origin": "http://127.0.0.1:3000",
-            },
-        });
+        if (style == "Raw Vocabulary") {
+            // !) OUTGOING DATA MATCHES INCOMING PATTERN IN RUST
+            setIsListLoading(true);
+            const res = await fetch(
+                "http://127.0.0.1:8000/russian/generate-list/raw-vocabulary",
+                {
+                    method: "POST",
+                    mode: "cors",
+                    body: JSON.stringify({
+                        input_text: input,
+                        breadth: breadth,
+                        style: style,
+                    }),
+                    headers: {
+                        "Content-Type": "application/json",
+                        "Access-Control-Allow-Origin": "http://127.0.0.1:3000",
+                    },
+                }
+            );
 
-        if (!res.ok) {
-            throw new Error("Failed to fetch");
-        }
-        const data = (await res.json()) as ListResponse;
+            if (!res.ok) {
+                throw new Error("Failed to fetch");
+            }
+            const data = (await res.json()) as RawVocabularyList;
 
-        if (typeof data == null || typeof data.list == null) {
-            throw new Error("Failed to fetch");
+            if (typeof data == null || typeof data.entry_list == null) {
+                throw new Error("Failed to fetch");
+            }
+
+            data.entry_list.sort((a, b) => b.frequency - a.frequency);
+
+            setIsListLoading(false);
+            setListData(data);
         }
-        setIsListLoading(false);
-        setListData(data);
     };
 
     return (
@@ -121,33 +134,32 @@ const Home: NextPage = () => {
                         </div>
                         {/* Buttons */}
                         <div className="flex flex-col sm:flex-row sm:justify-between">
-                            <div className="">
+                            <div className="flex flex-row">
                                 {/* Button 1 */}
-                                <select
-                                    className="mt-4 h-10 w-1/2 rounded-s-sm bg-stone-600 p-2 px-2 transition-all duration-100 hover:bg-orange-700  focus:ring-inset focus:ring-orange-800 sm:w-auto"
+                                <button
+                                    className="mt-4 flex h-10 w-1/2 flex-row justify-between rounded-s-sm bg-stone-600 p-2 px-2 transition-all duration-100 hover:bg-orange-700  focus:ring-inset focus:ring-orange-800 sm:w-auto"
                                     name="Output_Breadth"
                                     id="Output_Breadth"
-                                    onChange={(e) => setBreadth(e.target.value)}
                                     title="Select breadth of output list"
                                 >
-                                    <option>Full List</option>
-                                    <option>Broad List</option>
-                                    <option>Top Words</option>
-                                    <option>Rare Words</option>
-                                </select>
+                                    Full List
+                                    <div className="flex flex-col content-end justify-center px-2 text-stone-100">
+                                        <DownArrowSharp size="12px" />
+                                    </div>
+                                </button>
 
                                 {/* Button 2 */}
-                                <select
-                                    className="mt-4 h-10 w-1/2 rounded-e-sm border-s-[1.5px] border-s-stone-700 bg-stone-600 p-2 px-2 ps-4 transition-all duration-100 hover:bg-orange-700 focus:ring-inset focus:ring-orange-800  sm:w-auto"
+                                <button
+                                    className="mt-4 flex h-10 w-1/2 flex-row justify-between  rounded-e-sm border-s-[1.5px] border-s-stone-700 bg-stone-600 p-2 px-2 ps-4 transition-all duration-100 hover:bg-orange-700 focus:ring-inset focus:ring-orange-800  sm:w-auto"
                                     name="Output_Style"
                                     id="Output_Style"
-                                    onChange={(e) => setStyle(e.target.value)}
                                     title="Select style of output list"
                                 >
-                                    <option>Raw Vocabulary</option>
-                                    <option>Verb Pairs</option>
-                                    <option>Verb Trees</option>
-                                </select>
+                                    Raw Vocabulary
+                                    <div className="flex flex-col content-center justify-center px-2 text-stone-100">
+                                        <DownArrowSharp size="12px" />
+                                    </div>
+                                </button>
                             </div>
 
                             {/* Button 3 */}
@@ -168,9 +180,7 @@ const Home: NextPage = () => {
                     {/* BUTTON SECTION END */}
                     {/* LIST SECTION */}
 
-                    {listData ? (
-                        <VocabList {...listData} />
-                    ) : isListLoading ? (
+                    {isListLoading ? (
                         <div className="mt-8 flex flex-row justify-center">
                             <Triangle
                                 height="90"
@@ -182,6 +192,8 @@ const Home: NextPage = () => {
                                 visible={true}
                             />
                         </div>
+                    ) : listData ? (
+                        <RawVocabList {...listData} />
                     ) : (
                         <>
                             <div>
@@ -226,29 +238,36 @@ const Home: NextPage = () => {
 
 export default Home;
 
-const VocabList = (listData: ListResponse) => {
+const RawVocabList = (listData: RawVocabularyList) => {
     const [linkLang, setLinkLang] = useState<LinkLanguage>(
         LinkLanguage.English
     );
 
-    if (listData.style === "Raw Vocabulary")
-        return (
-            <div>
+    return (
+        <>
+            <div className="mb-5 flex justify-end ">
                 <button
                     onClick={() => {
                         linkLang == LinkLanguage.English
                             ? setLinkLang(LinkLanguage.Russian)
                             : setLinkLang(LinkLanguage.English);
                     }}
-                    className="float-right bg-stone-600 px-4 py-2 hover:bg-orange-700"
+                    className=" rounded-sm bg-stone-600 px-4 py-2 hover:bg-orange-700"
                 >
                     Links: {linkLang == LinkLanguage.English ? "EN" : "RU"}
                 </button>
-                <ul>
-                    {listData.list.map(
-                        (vocabEntry: VocabEntry) =>
-                            vocabEntry.lemma && (
-                                <li key={vocabEntry.form}>
+            </div>
+            <div>
+                {listData.entry_list.map(
+                    (vocabEntry: RawVocabEntry) =>
+                        vocabEntry.lemma && (
+                            <div
+                                className="flex h-10 flex-row justify-between border-b-[1px] border-b-stone-900 py-1 ps-3 text-xl transition-all duration-300 hover:bg-stone-900"
+                                key={vocabEntry.lemma}
+                                id={vocabEntry.lemma}
+                            >
+                                <div>
+                                    {" "}
                                     <a
                                         className="hover:text-orange-700"
                                         target="_blank"
@@ -259,26 +278,34 @@ const VocabList = (listData: ListResponse) => {
                                         }
                                     >
                                         {vocabEntry.lemma}
-                                    </a>{" "}
-                                    - {vocabEntry.frequency}
-                                </li>
-                            )
-                    )}
-                </ul>
+                                    </a>
+                                    <span className="cursor-default">
+                                        {" "}
+                                        - {vocabEntry.frequency}
+                                    </span>
+                                    <div>
+                                        <RussianSentencer />
+                                    </div>
+                                </div>
+                                <button
+                                    onClick={() => {
+                                        const row = document.getElementById(
+                                            vocabEntry.lemma
+                                        );
+                                        if (row?.classList.contains("h-20")) {
+                                            row?.classList.remove("h-20");
+                                        } else {
+                                            row?.classList.add("h-20");
+                                        }
+                                    }}
+                                    className="float-right my-auto me-1 h-fit rounded-sm bg-stone-700 px-1 py-1 text-sm"
+                                >
+                                    Show Example
+                                </button>
+                            </div>
+                        )
+                )}
             </div>
-        );
-
-    if (listData.style === "Verb Pairs")
-        return (
-            <div>
-                <div></div>
-            </div>
-        );
-
-    if (listData.style === "Verb Trees")
-        return (
-            <div>
-                <div></div>
-            </div>
-        );
+        </>
+    );
 };
