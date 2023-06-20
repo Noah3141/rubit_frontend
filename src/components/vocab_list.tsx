@@ -3,7 +3,11 @@ import type RawVocabularyList from "~/models/vocabulary_lists";
 import type RawVocabEntry from "~/models/vocabulary_lists";
 import RussianSentencer from "./russian_sentencer";
 
-type ShowExampleState = Record<string, boolean>;
+type EntryState = Record<string, Fields>;
+type Fields = {
+    showExample: boolean;
+    showTranslation: boolean;
+};
 
 enum LinkLanguage {
     Russian = 0,
@@ -15,12 +19,15 @@ const RawVocabList = (listData: RawVocabularyList) => {
         LinkLanguage.English
     );
 
-    const [showExample, setShowExample] = useState<ShowExampleState>({});
+    const [showExample, setShowExample] = useState<EntryState>({});
 
-    const toggleShowExample = (id: string) => {
-        setShowExample((prevState) => ({
+    const toggleShowExample = (lemma_id: string) => {
+        setShowExample((prevState: EntryState) => ({
             ...prevState,
-            [id]: !prevState[id],
+            [lemma_id]: {
+                showTranslation: !!prevState[lemma_id]?.showTranslation,
+                showExample: !prevState[lemma_id]?.showExample,
+            },
         }));
     };
 
@@ -43,54 +50,79 @@ const RawVocabList = (listData: RawVocabularyList) => {
                     (vocabEntry) =>
                         vocabEntry.lemma && (
                             <div
-                                className="flex h-10 flex-row justify-between border-b-[1px] border-b-stone-900 py-1 ps-3 text-xl transition-all duration-300 hover:bg-stone-900"
                                 key={vocabEntry.lemma}
-                                id={vocabEntry.lemma}
+                                className=" hover:bg-stone-900 "
                             >
-                                <div>
-                                    {" "}
-                                    <a
-                                        className="hover:text-orange-700"
-                                        target="_blank"
-                                        href={
-                                            linkLang == LinkLanguage.English
-                                                ? `https://en.wiktionary.org/wiki/${vocabEntry.lemma}`
-                                                : `https://ru.wiktionary.org/wiki/${vocabEntry.lemma}`
-                                        }
-                                    >
-                                        {vocabEntry.lemma}
-                                    </a>
-                                    <span className="cursor-default">
-                                        {" "}
-                                        - {vocabEntry.frequency}
-                                    </span>
-                                    <div>
+                                <div
+                                    className="flex h-10 flex-col overflow-clip border-b-[1px] border-b-stone-900 py-1 ps-3 text-xl transition-all duration-300"
+                                    key={vocabEntry.lemma}
+                                    id={vocabEntry.lemma}
+                                >
+                                    <div className="flex flex-row justify-between">
+                                        <div>
+                                            <a
+                                                className="hover:text-orange-700"
+                                                target="_blank"
+                                                href={
+                                                    linkLang ==
+                                                    LinkLanguage.English
+                                                        ? `https://en.wiktionary.org/wiki/${vocabEntry.lemma}`
+                                                        : `https://ru.wiktionary.org/wiki/${vocabEntry.lemma}`
+                                                }
+                                            >
+                                                {vocabEntry.lemma}
+                                            </a>
+                                            <span className="cursor-default">
+                                                {" "}
+                                                - {vocabEntry.frequency}
+                                            </span>
+                                        </div>
+                                        <button
+                                            onClick={() => {
+                                                toggleShowExample(
+                                                    vocabEntry.lemma
+                                                );
+
+                                                const row =
+                                                    document.getElementById(
+                                                        vocabEntry.lemma
+                                                    );
+
+                                                if (
+                                                    row?.classList.contains(
+                                                        "h-40"
+                                                    )
+                                                ) {
+                                                    row?.classList.remove(
+                                                        "h-40"
+                                                    );
+                                                } else {
+                                                    row?.classList.add("h-40");
+                                                }
+                                            }}
+                                            className="w-30 float-right me-1 rounded-sm bg-transparent px-2 py-1 align-middle text-sm text-stone-500 outline outline-1 outline-stone-500 hover:bg-stone-500 hover:text-stone-950"
+                                        >
+                                            {showExample[vocabEntry.lemma]
+                                                ?.showExample
+                                                ? "Hide Example"
+                                                : "Show Example"}
+                                        </button>
+                                    </div>
+                                    <div className="py-2 pt-3">
                                         <RussianSentencer
                                             id={`${vocabEntry.lemma}_sentence`}
-                                            show={
-                                                showExample[vocabEntry.lemma] ??
-                                                false
+                                            showExample={
+                                                showExample[vocabEntry.lemma]
+                                                    ?.showExample ?? false
                                             }
+                                            showTranslation={
+                                                showExample[vocabEntry.lemma]
+                                                    ?.showTranslation ?? false
+                                            }
+                                            lemma={vocabEntry.lemma}
                                         />
                                     </div>
                                 </div>
-                                <button
-                                    onClick={() => {
-                                        toggleShowExample(vocabEntry.lemma);
-                                        const row = document.getElementById(
-                                            vocabEntry.lemma
-                                        );
-
-                                        if (row?.classList.contains("h-20")) {
-                                            row?.classList.remove("h-20");
-                                        } else {
-                                            row?.classList.add("h-20");
-                                        }
-                                    }}
-                                    className="float-right my-auto me-1 h-fit rounded-sm bg-stone-700 px-1 py-1 text-sm"
-                                >
-                                    Show Example
-                                </button>
                             </div>
                         )
                 )}
@@ -100,3 +132,4 @@ const RawVocabList = (listData: RawVocabularyList) => {
 };
 
 export default RawVocabList;
+export type { EntryState, Fields };
