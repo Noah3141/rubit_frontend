@@ -1,21 +1,56 @@
 import { useState } from "react";
 
 import React from "react";
+import type { EntryState } from "./vocab_list";
 
-const RussianSentencer = (props: { id: string; show: boolean }) => {
+const RussianSentencer = (props: {
+    id: string;
+    showExample: boolean;
+    showTranslation: boolean;
+    lemma: string;
+}) => {
     const [sentence, setSentence] = useState(null);
     const [trans, setTrans] = useState(null);
 
-    if (props.show == false) {
+    const [showExample, setShowExample] = useState<EntryState>({});
+
+    const toggleShowTranslation = (lemma_id: string) => {
+        setShowExample((prevState: EntryState) => ({
+            ...prevState,
+            [lemma_id]: {
+                showTranslation: !prevState[lemma_id]?.showTranslation,
+                showExample: !!prevState[lemma_id]?.showExample,
+            },
+        }));
+    };
+
+    if (props.showExample == false) {
         return <></>;
     } else {
         return (
-            <div>
-                Lorem ipsum dolor sit amet consectetur adipisicing elit. Cum
-                eligendi eum quo quos aperiam delectus ex sequi quas tempore
-                ipsam est porro dolorum cumque minima iure quae, quia ipsum
-                molestias.
-            </div>
+            <>
+                <div className="flex flex-row justify-between">
+                    <div className="pe-4">
+                        ChatGPT generated example Russian sentence here.{" "}
+                        <i>Cum eligendi eum quo quos aperiam delectus.</i>
+                    </div>
+                    <div>
+                        <button
+                            onClick={() => toggleShowTranslation(props.lemma)}
+                            className="w-30 float-right me-1 whitespace-nowrap rounded-sm bg-transparent px-2 py-1 align-middle text-sm text-stone-500 outline outline-1 outline-stone-500 hover:bg-stone-500 hover:text-stone-950"
+                        >
+                            {showExample[props.lemma]?.showTranslation
+                                ? "Hide English"
+                                : "Show English"}
+                        </button>
+                    </div>
+                </div>
+                <div>
+                    {showExample[props.lemma]?.showTranslation
+                        ? "And here is ChatGPT's translation"
+                        : null}
+                </div>
+            </>
         );
     }
 };
