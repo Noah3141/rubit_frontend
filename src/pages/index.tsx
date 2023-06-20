@@ -24,7 +24,7 @@ const Home: NextPage = () => {
             // !) OUTGOING DATA MATCHES INCOMING PATTERN IN RUST
             setIsListLoading(true);
             const res = await fetch(
-                "http://127.0.0.1:8000/russian/generate-list/raw-vocabulary",
+                "https://toolkitapi-production.up.railway.app/russian/generate-list/raw-vocabulary",
                 {
                     method: "POST",
                     mode: "cors",
