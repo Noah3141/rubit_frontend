@@ -71,20 +71,20 @@ const Home: NextPage = () => {
             </Head>
             <Header />
             <main className="min-h-screen bg-stone-950 p-2 pb-16 pt-8 font-main  text-stone-300 sm:flex sm:flex-col sm:items-center sm:p-8">
-                <div className="px-4 transition-all duration-200 sm:w-[600px] md:w-[700px] lg:w-[800px]">
-                    <section>
+                <div className="px-4 transition-all duration-200 sm:w-[600px] md:w-[700px] lg:w-[900px] xl:w-[1100px]">
+                    <section className="mb-8 sm:mb-16">
                         <h1 className="mb-2 mt-2 text-center text-5xl font-bold">
                             Rubit
                         </h1>
-                        <div className="py-8">
-                            <h3 className="text-center text-2xl">
-                                Create vocabulary lists from Russian text!
-                            </h3>
-                            <p className="py-2">
+                        <h3 className="text-center text-2xl">
+                            Create vocabulary lists from Russian text!
+                        </h3>
+                        <div className="py-2">
+                            <p className="py-1">
                                 Try YouTube transcripts of podcasts or speeches,
                                 book chapters, or articles.
                             </p>
-                            <p className="py-2">
+                            <p className="py-1">
                                 Input your study material text and choose
                                 settings for what kind of list output you want.
                             </p>
