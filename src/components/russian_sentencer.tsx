@@ -1,61 +1,43 @@
-import { useState } from "react";
+import { SetStateAction, useState } from "react";
 
 import React from "react";
-import type { EntryState } from "./vocab_list";
+import { type ListState } from "./vocab_list";
 
-import { Triangle } from "react-loader-spinner";
+import { Discuss, Triangle } from "react-loader-spinner";
 
 const RussianSentencer = (props: {
     id: string;
     showExampleState: boolean;
-    showTranslation: boolean;
     lemma: string;
     gptExample: string | undefined;
+    isLoading: boolean;
 }) => {
-    const { id, showExampleState, showTranslation, lemma, gptExample } = props;
+    const { id, showExampleState, lemma, gptExample, isLoading } = props;
 
-    const [sentence, setSentence] = useState<string | null>(null);
-    const [trans, setTrans] = useState<string | null>(null);
-    const [isLoading, setIsLoading] = useState<boolean>(false);
-
-    const [showExample, setShowExample] = useState<EntryState>({});
-
-    const toggleShowTranslation = (lemma_id: string) => {
-        setShowExample((prevState: EntryState) => ({
-            ...prevState,
-            [lemma_id]: {
-                gptExample: prevState[lemma_id]?.gptExample ?? undefined,
-                showTranslation: !prevState[lemma_id]?.showTranslation,
-                showExample: !!prevState[lemma_id]?.showExample,
-            },
-        }));
-    };
+    const [showTranslation, setShowTranslation] = useState<boolean>(false);
 
     if (showExampleState == false) {
         return <div className="flex flex-row justify-between"></div>;
-    } else if (isLoading == true) {
+    } else if (isLoading == true && typeof gptExample == "undefined") {
         return (
-            <div className="mt-8 flex flex-row justify-center">
-                <Triangle
-                    height="90"
-                    width="90"
-                    color="#c2410c"
-                    ariaLabel="triangle-loading"
-                    wrapperStyle={{}}
-                    wrapperClass=""
+            <div className=" flex flex-row justify-center">
+                <Discuss
                     visible={true}
+                    height="60"
+                    width="60"
+                    ariaLabel="comment-loading"
+                    wrapperStyle={{}}
+                    wrapperClass="comment-wrapper"
+                    colors={["#c2410c", "#c2410c"]}
                 />
             </div>
         );
     } else if (typeof gptExample == "string") {
-        const russOutput = gptExample.split(" (")[0];
-        const engOutput = gptExample
+        const sentence = gptExample.split(" (")[0];
+        const trans = gptExample
             .split(" (")[1]
             ?.replace("(", "")
             .replace(")", "");
-
-        setSentence(russOutput ?? null);
-        setTrans(engOutput ?? null);
 
         return (
             <>
@@ -63,18 +45,16 @@ const RussianSentencer = (props: {
                     <div className="pe-4 ">{sentence}</div>
                     <div>
                         <button
-                            onClick={() => toggleShowTranslation(props.lemma)}
+                            onClick={() =>
+                                setShowTranslation((state) => !state)
+                            }
                             className="w-30 float-right me-2 whitespace-nowrap rounded-sm bg-transparent px-2 py-1 align-middle text-sm text-stone-500 outline outline-1 outline-stone-500 hover:bg-stone-500 hover:text-stone-950"
                         >
-                            {showExample[props.lemma]?.showTranslation
-                                ? "Hide English"
-                                : "Show English"}
+                            {showTranslation ? "Hide English" : "Show English"}
                         </button>
                     </div>
                 </div>
-                <div className="">
-                    {showExample[props.lemma]?.showTranslation ? trans : null}
-                </div>
+                <div className="">{showTranslation ? trans : null}</div>
             </>
         );
     }
