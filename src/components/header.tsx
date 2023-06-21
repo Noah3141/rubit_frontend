@@ -11,13 +11,13 @@ const Header = () => {
                 <div>List Generator</div>
             </Link>
             <Link
-                href="/pairs"
+                href="/verb-pairs"
                 className="border-b-2 border-transparent px-5 py-2 text-stone-200 transition duration-100 hover:bg-orange-600 hover:text-stone-200 sm:py-4 sm:hover:border-b-2 sm:hover:border-b-orange-600 sm:hover:bg-stone-950 sm:hover:text-orange-600"
             >
                 <div>Verb Pairs</div>
             </Link>
             <Link
-                href="/trees"
+                href="/verb-trees"
                 className="border-b-2 border-transparent px-5 py-2 text-stone-200 transition duration-100 hover:bg-orange-600 hover:text-stone-200 sm:py-4 sm:hover:border-b-2 sm:hover:border-b-orange-600 sm:hover:bg-stone-950 sm:hover:text-orange-600"
             >
                 <div>Verb Trees</div>
