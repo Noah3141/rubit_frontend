@@ -8,6 +8,7 @@ import RussianSentencer from "../components/russian_sentencer";
 import DownArrowSharp from "~/images/icons/DownArrowSharp";
 import RawVocabList from "~/components/vocab_list";
 import RawVocabularyList from "~/models/vocabulary_lists";
+import Footer from "~/components/footer";
 
 const Home: NextPage = () => {
     const [input, setInput] = useState("");
@@ -62,7 +63,7 @@ const Home: NextPage = () => {
             <Head>
                 <title>Rubit - List Generator</title>
                 <link rel="preconnect" href="https://fonts.googleapis.com" />
-                <link rel="icon" href="/favicon.ico" />
+                <link rel="icon" href="/favicon.ico?v=3" />
                 <link rel="preconnect" href="https://fonts.gstatic.com" />
                 <link
                     href="https://fonts.googleapis.com/css2?family=Inter:wght@100;400;500;700;800&display=swap"
@@ -70,7 +71,7 @@ const Home: NextPage = () => {
                 />
             </Head>
             <Header />
-            <main className="min-h-screen bg-stone-950 p-2 pb-16 pt-8 font-main  text-stone-300 sm:flex sm:flex-col sm:items-center sm:p-8">
+            <main className="min-h-screen bg-stone-950 p-2 pb-16 pt-8 font-main  text-stone-200 sm:flex sm:flex-col sm:items-center sm:p-8">
                 <div className="px-4 transition-all duration-200 sm:w-[600px] md:w-[700px] lg:w-[900px] xl:w-[1100px]">
                     <section className="mb-8 sm:mb-8">
                         <h1 className="mb-2 mt-2 text-center text-5xl font-bold">
@@ -179,6 +180,7 @@ const Home: NextPage = () => {
                     {/* LIST SECTION END */}
                 </div>
             </main>
+            <Footer />
         </>
     );
 };
