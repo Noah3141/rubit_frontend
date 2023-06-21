@@ -10,6 +10,8 @@ import слать from "./../images/слатьTree.jpg";
 import судить from "./../images/судитьTree.jpg";
 import ездить from "./../images/ездитьTree.jpg";
 import Footer from "~/components/footer";
+import за_map from "./../images/за-SemanticMap.jpg";
+import за_image from "./../images/за-image.jpg";
 
 const tree_model = () => {
     const imageWidth = 600;
@@ -28,8 +30,8 @@ const tree_model = () => {
             </Head>
             <Header />
             <main className="flex min-h-screen bg-stone-950 p-2 pb-16 pt-8  font-main text-xl text-stone-300 sm:flex sm:flex-col sm:items-center sm:p-8">
-                <div className="px-4 transition-all duration-200 sm:w-[600px] md:w-[700px] lg:w-[800px]">
-                    <h1 className="mb-4 text-center text-3xl">
+                <div className="px-4 transition-all duration-200 sm:w-[600px] md:w-[800px] lg:w-[1200px]">
+                    <h1 className="mb-4 mt-6 text-center text-3xl">
                         Anki Flashcard Deck in the Verb Tree Model
                     </h1>
                     <p>
@@ -89,8 +91,10 @@ const tree_model = () => {
                             Download Anki Deck
                         </button>{" "}
                     </a>
-                    <h1>Verb Tree List</h1>
-                    <h2>Trees with Example Diagrams</h2>
+                    <h1 className="mb-4 mt-6 text-6xl">Verb Tree List</h1>
+                    <h2 className="mt-6 text-3xl">
+                        Trees with Example Diagrams
+                    </h2>
                     <div>
                         говорить (-говаривать) <br />
                         судить (-суживать, -суждать) <br />
@@ -103,14 +107,14 @@ const tree_model = () => {
                     </div>
                     <div className=" flex flex-col lg:flex-row">
                         <Image
-                            className=" lg:-translate-x-1/3"
+                            className=" p-2"
                             src={говорить}
                             alt="diagram"
                             width={imageWidth}
                             height={imageHeight}
                         ></Image>
                         <Image
-                            className=" lg:-translate-x-1/3"
+                            className=" p-2"
                             src={судить}
                             alt="diagram"
                             width={imageWidth}
@@ -119,14 +123,14 @@ const tree_model = () => {
                     </div>
                     <div className=" flex flex-col lg:flex-row">
                         <Image
-                            className=" lg:-translate-x-1/3"
+                            className=" p-2"
                             src={кинуть}
                             alt="diagram"
                             width={imageWidth}
                             height={imageHeight}
                         ></Image>
                         <Image
-                            className=" lg:-translate-x-1/3"
+                            className=" p-2"
                             src={класть}
                             alt="diagram"
                             width={imageWidth}
@@ -135,14 +139,14 @@ const tree_model = () => {
                     </div>
                     <div className="flex flex-col lg:flex-row">
                         <Image
-                            className=" lg:-translate-x-1/3"
+                            className=" p-2"
                             src={слать}
                             alt="diagram"
                             width={imageWidth}
                             height={imageHeight}
                         ></Image>
                         <Image
-                            className=" lg:-translate-x-1/3"
+                            className=" p-2"
                             src={ездить}
                             alt="diagram"
                             width={imageWidth}
@@ -156,12 +160,11 @@ const tree_model = () => {
                     perfective branch: в<u>ы</u>ехать в<u>ы</u>ездить both
                     exist.
                     <br />
-                    It's important to note that this, because motion verbs
-                    require a <i>different than usual metric </i>to judge
-                    aspect: заходить is not perfective! In motion verb trees,
-                    the "abstract" root forms the imperfective tree. So,
-                    usually, there aren't doubled perfective branches in motion
-                    verbs.
+                    It's important to note this, because motion verbs require a{" "}
+                    <i>different than usual metric </i>to judge aspect: заходить
+                    is not perfective! In motion verb trees, the "abstract" root
+                    forms the imperfective tree. So, usually, there aren't
+                    doubled perfective branches in motion verbs.
                     <br />
                     This verb, however, looks more like a usual verb tree. ;
                     <br />
@@ -179,9 +182,9 @@ const tree_model = () => {
                     mutations) are possible to create imperfective forms
                     (судить)
                     <br />
-                    <h2>Tree List ~ 300</h2>
+                    <h2 className="mt-6 text-3xl">Tree List ~ 300 roots</h2>
                     <br />
-                    <h4>General Verbs</h4>
+                    <h4 className="text-2xl">General Verbs</h4>
                     <br />
                     гадать (-гадывать) to guess, conjecture, surmise, to divine
                     <br />
@@ -877,7 +880,8 @@ const tree_model = () => {
                     to dart, dash, run quickly шм<u>ы</u>гать / шм<u>ы</u>гнуть
                     носом - to sniff loudly
                     <br />
-                    <br /> <h4>Sound and Vocalization Verbs</h4>
+                    <br />{" "}
+                    <h4 className="text-2xl">Sound and Vocalization Verbs</h4>
                     <br />
                     ныть (-нывать) to whimper, to whine, snivel; to ache (of a
                     bodypart) крыть style conjugation
@@ -908,7 +912,8 @@ const tree_model = () => {
                     <br />п<u>и</u>скнуть / пищ<u>а</u>ть (-пискивать) to
                     squeak, to peep
                     <br />
-                    <br /> <h4>Trees without Rootspaces</h4>
+                    <br />{" "}
+                    <h4 className="text-2xl">Trees without Rootspaces</h4>
                     <br />
                     -становить / -станавливать or -становлять to stand, to
                     place, set up
@@ -952,7 +957,7 @@ const tree_model = () => {
                     -речь / -рекать to say, to speak (in high register contexts)
                     [речь - speech]
                     <br />
-                    <h1>Trees</h1>
+                    <h1 className="mb-4 mt-6 text-6xl">Trees</h1>
                     Trees are tokenized as: imperfective root / root
                     (imperfective branch -ывать/-ивать, or -ать/-ять) <br />
                     Cards are designed to give you the information to form the{" "}
@@ -1358,9 +1363,12 @@ const tree_model = () => {
                     <br /> The associated noun for this tree is ём. (Compare
                     related иметь)"
                     <br />
-                    <h1>Concept of Perfectivity</h1> Unprefixed root verbs can
-                    be considered "Acts" (Imperfective). They refer to the
-                    action of the words meaning.
+                    <h1 className="mb-4 mt-6 text-6xl">
+                        Concept of Perfectivity
+                    </h1>{" "}
+                    Unprefixed root verbs can be considered "Acts"
+                    (Imperfective). They refer to the action of the words
+                    meaning.
                     <br />
                     From there, by adding a prefix we{" "}
                     <u>specify a criterion for completion-state</u> ;(apartness,
@@ -1400,7 +1408,7 @@ const tree_model = () => {
                     generally because they refer to singular actions, especially
                     singular instantaneous actions (actions with no duration).
                     <br />
-                    <h1>
+                    <h1 className="mb-4 mt-6 text-6xl">
                         Prefix Usage Guide - Philosophy of Language Learning
                     </h1>{" "}
                     Recognition is easiest - noticing that a verb is prefixed.
@@ -1607,10 +1615,10 @@ const tree_model = () => {
                         liquid into multiple, as they would for a set of guests
                         etc.
                     </div>
-                    <h1>Prefixes</h1>
+                    <h1 className="mb-4 mt-6 text-6xl">Prefixes</h1>
                     <br />
                     <br />
-                    <h2>*по- "along"</h2>
+                    <h2 className="mt-6 text-3xl">*по- "along"</h2>
                     <br />
                     1. Along some kind of length
                     <br />
@@ -1639,7 +1647,9 @@ const tree_model = () => {
                     may be."
                     <br />
                     <br />
-                    <h2>*c(о)- "together (with) // down (off)"</h2>
+                    <h2 className="mt-6 text-3xl">
+                        *c(о)- "together (with) // down (off)"
+                    </h2>
                     <br />
                     1a. (from с+gen) off of a surface
                     <br />
@@ -1695,7 +1705,9 @@ const tree_model = () => {
                     parse.
                     <br />
                     <br />
-                    <h2>*раз- "apart, out (all over), dis-, between"</h2>
+                    <h2 className="mt-6 text-3xl">
+                        *раз- "apart, out (all over), dis-, between"
+                    </h2>
                     <br />
                     1. Divergence, or happening in multiple/different
                     <i> destinations</i> or<i> directions </i>(2 is enough)
@@ -1726,7 +1738,9 @@ const tree_model = () => {
                     по-русски)--it's "Do you convese in both directions?"
                     <br />
                     <br />
-                    <h2>*у- "away, at, tó (stressed form, see examples)</h2>
+                    <h2 className="mt-6 text-3xl">
+                        *у- "away, at, tó (stressed form, see examples)
+                    </h2>
                     <br />
                     1. Emphasis on a particular proximity, spot, area, where
                     action occurs (conveying aimedness, or catching)
@@ -1762,7 +1776,7 @@ const tree_model = () => {
                     унять / унимать - to take to (a baby), calm, quiet soothe
                     <br />
                     <br />
-                    <h2>*вы- out (from within)</h2>
+                    <h2 className="mt-6 text-3xl">*вы- out (from within)</h2>
                     <br />
                     1. Emergence
                     <br />
@@ -1786,11 +1800,11 @@ const tree_model = () => {
                     <br />
                     <br />
                     <br />
-                    <h2>*за- "over, beyond, into</h2>
+                    <h2 className="mt-6 text-3xl">*за- "over, beyond, into</h2>
                     <br />
                     <Image
                         className="prefix-image"
-                        src="/images/за-image.jpg"
+                        src={за_image}
                         alt="diagram"
                         width={imageWidth}
                         height={imageHeight}
@@ -1871,7 +1885,7 @@ const tree_model = () => {
                     <br />
                     <Image
                         className="semantic-map-1"
-                        src="/images/за-SemanticMap.jpg"
+                        src={за_map}
                         width={imageWidth}
                         height={imageHeight}
                         alt="diagram"
@@ -1897,7 +1911,7 @@ const tree_model = () => {
                     sentence to specify whether the "over" is 'to' or 'fro.'"
                     <br />
                     <br />
-                    <h2>*в(о)- "in, into</h2>
+                    <h2 className="mt-6 text-3xl">*в(о)- "in, into</h2>
                     <br />
                     1. Entrance, insertion
                     <br />
@@ -1921,7 +1935,7 @@ const tree_model = () => {
                     встать / вставать - to arise, to stand up"
                     <br />
                     <br />
-                    <h2>*при- "up to, to</h2>
+                    <h2 className="mt-6 text-3xl">*при- "up to, to</h2>
                     <br />
                     1. Arrival
                     <br />
@@ -1938,7 +1952,7 @@ const tree_model = () => {
                     "Приставил пистолет к голове"
                     <br />
                     <br />
-                    <h2>*от- "off, away, back"</h2>
+                    <h2 className="mt-6 text-3xl">*от- "off, away, back"</h2>
                     <br />
                     1. Small departure, addition of small distance
                     <br />
@@ -1968,7 +1982,9 @@ const tree_model = () => {
                     from the thing in front" implicitly."
                     <br />
                     <br />
-                    <h2>*до- "unto, until, up to, out (finish)"</h2>
+                    <h2 className="mt-6 text-3xl">
+                        *до- "unto, until, up to, out (finish)"
+                    </h2>
                     <br />
                     1. Emphasizes the removal of final distance to some aim,
                     point, place, space, level
@@ -2010,7 +2026,7 @@ const tree_model = () => {
                     "behind")"
                     <br />
                     <br />
-                    <h2>*на- "up, upon"</h2>
+                    <h2 className="mt-6 text-3xl">*на- "up, upon"</h2>
                     <br />
                     1. Up to a surface (onto a surface)
                     <br />
@@ -2033,7 +2049,9 @@ const tree_model = () => {
                     (quantity emphasis); to falsely accuse someone"
                     <br />
                     <br />
-                    <h2>*о(бо)- about, around, mis-</h2>
+                    <h2 className="mt-6 text-3xl">
+                        *о(бо)- about, around, mis-
+                    </h2>
                     <br />
                     1. About or around something
                     <br />
@@ -2062,7 +2080,7 @@ const tree_model = () => {
                     mistaken"
                     <br />
                     <br />
-                    <h2>*про- past, through</h2>
+                    <h2 className="mt-6 text-3xl">*про- past, through</h2>
                     <br />
                     1. Through the points along a line
                     <br />
@@ -2082,7 +2100,7 @@ const tree_model = () => {
                     пролить / проливать - to spill (something), etc.
                     <br />
                     <br />
-                    <h2>*пере- "across, over"</h2>
+                    <h2 className="mt-6 text-3xl">*пере- "across, over"</h2>
                     <br />
                     1. Between two emphasis points (especially crossing 'over' a
                     border between)
@@ -2110,7 +2128,7 @@ const tree_model = () => {
                     creative and non-standard, but it will 'work.'"
                     <br />
                     <br />
-                    <h2>*под- "up, under, down"</h2>
+                    <h2 className="mt-6 text-3xl">*под- "up, under, down"</h2>
                     <br />
                     1. Action occuring under ("upward")
                     <br />
@@ -2145,7 +2163,9 @@ const tree_model = () => {
                     was a job opening)"
                     <br />
                     <br />
-                    <h2>*воз- "up, above (also вз-, вос, вс)</h2>
+                    <h2 className="mt-6 text-3xl">
+                        *воз- "up, above (also вз-, вос, вс)
+                    </h2>
                     <br />
                     1. Upward movement, arising
                     <br />
@@ -2174,7 +2194,7 @@ const tree_model = () => {
                     взметнуть or взметать / взмётывать - to hurl up (upwards)"
                     <br />
                     <br />
-                    <h2>
+                    <h2 className="mt-6 text-3xl">
                         *недо- 1. Under-, insufficiently, poorly, without
                         reaching intended point
                     </h2>
@@ -2184,13 +2204,17 @@ const tree_model = () => {
                     part, or not to the end
                     <br />
                     <br />
-                    <h2>*из- forth, out (from within)</h2>
+                    <h2 className="mt-6 text-3xl">
+                        *из- forth, out (from within)
+                    </h2>
                     <br />
                     1. Same as вы- but tends towards higher register, more
                     abstract senses
                     <br />
                     <br />
-                    <h2>*пре- "forth, out (from the rest)</h2>
+                    <h2 className="mt-6 text-3xl">
+                        *пре- "forth, out (from the rest)
+                    </h2>
                     <br />
                     1. Separation from a row by moving out of line
                     (exceedingness, totalness, breaking formation)
@@ -2206,7 +2230,7 @@ const tree_model = () => {
                     of Latin pre- (before, beforehand).
                     <br />
                     <br />
-                    <h2>*пред- "before, fore-</h2>
+                    <h2 className="mt-6 text-3xl">*пред- "before, fore-</h2>
                     <br />
                     1. In front of (передо мной = before me, "in front of me")
                     <br />
@@ -2216,10 +2240,12 @@ const tree_model = () => {
                     <br />
                     предсказать / предсказывать - foretell, foresay"
                     <br />
-                    <h1>Example Verbs</h1>
+                    <h1 className="mb-4 mt-6 text-6xl">Example Verbs</h1>
                     <br />
                     <br />
-                    <h2>Example Verb: делать - to do/make</h2>
+                    <h2 className="mt-6 text-3xl">
+                        Example Verb: делать - to do/make
+                    </h2>
                     сделать - often used as the perfective because the с- on
                     this verb denotes "coming together to form something", so,
                     when using the verb as in "to make" something, this is
@@ -2231,7 +2257,9 @@ const tree_model = () => {
                     do in sequence a lot or a number of things"
                     <br />
                     <br />
-                    <h2>Example Verb: лить - to pour</h2>
+                    <h2 className="mt-6 text-3xl">
+                        Example Verb: лить - to pour
+                    </h2>
                     полить - pour along (give a layer of liquid)
                     <br />
                     залить - pour beyond (pour beyond a reasonable point, i.e.
@@ -2278,7 +2306,9 @@ const tree_model = () => {
                     and "pour"
                     <br />
                     <br />
-                    <h2>Example Verb: писать - to write</h2>
+                    <h2 className="mt-6 text-3xl">
+                        Example Verb: писать - to write
+                    </h2>
                     написать / написывать - to write a certain amount (a book, a
                     message, a paragraph) (This is considered 'the perfective'
                     mostly because that is the way we tend to speak about
@@ -2310,7 +2340,9 @@ const tree_model = () => {
                     side to something written, etc...
                     <br />
                     <br />
-                    <h2>Example Verb: пить - to drink</h2>
+                    <h2 className="mt-6 text-3xl">
+                        Example Verb: пить - to drink
+                    </h2>
                     выпивать / выпить - to drink (something out, empty by
                     drinking) (This is considered 'the perfective' mostly
                     because that is the way we tend to speak about 'drinking',
@@ -2341,7 +2373,7 @@ const tree_model = () => {
                     prefix can't be deciphered.
                     <br />
                     <br />
-                    <h2>
+                    <h2 className="mt-6 text-3xl">
                         Example Verb: -п<u>о</u>лнить / полн<u>я</u>ть - to fill
                         [полный]
                     </h2>
@@ -2373,7 +2405,7 @@ const tree_model = () => {
                     missing (arbitrary amount), fill a bit (along)
                     <br />
                     <br />
-                    <h2>
+                    <h2 className="mt-6 text-3xl">
                         Example Verb: п<u>о</u>мнить (-поминать) - to have in
                         memory
                     </h2>
@@ -2393,7 +2425,7 @@ const tree_model = () => {
                     recognition. ;
                     <br />
                     <br />
-                    <h2>Sound Verbs:</h2>
+                    <h2 className="mt-6 text-3xl">Sound Verbs:</h2>
                     The Three Common Perfectives "Imperfective Unprefixed Root,
                     and
                     <br />
@@ -2421,7 +2453,9 @@ const tree_model = () => {
                     words may frequently not be found in any English dictionary,
                     and are reliably createable on-the-fly.
                     <br />
-                    <h1>New Word Aspect Recognition & Pair Derivation</h1>
+                    <h1 className="mb-4 mt-6 text-6xl">
+                        New Word Aspect Recognition & Pair Derivation
+                    </h1>
                     Prefixes perfectivize.
                     <br />
                     Suffixes imperfectivize.
