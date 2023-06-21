@@ -2,7 +2,7 @@ import { useState } from "react";
 import type RawVocabularyList from "~/models/vocabulary_lists";
 import type RawVocabEntry from "~/models/vocabulary_lists";
 import RussianSentencer from "./russian_sentencer";
-import { getGPTExample } from "~/utils/chat_gpt_complete";
+import { getGPTExample } from "~/utils/request_gpt";
 
 type EntryState = Record<string, Fields>;
 type Fields = {
