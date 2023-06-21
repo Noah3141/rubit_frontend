@@ -6,4 +6,10 @@
     .html {
         @apply overflow-hidden bg-stone-950;
     }
+    .entry-expanded {
+        @apply h-32 overflow-scroll;
+    }
+    .entry-collapsed {
+        @apply h-11 overflow-clip;
+    }
 }
