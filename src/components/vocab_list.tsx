@@ -2,11 +2,13 @@ import { useState } from "react";
 import type RawVocabularyList from "~/models/vocabulary_lists";
 import type RawVocabEntry from "~/models/vocabulary_lists";
 import RussianSentencer from "./russian_sentencer";
+import { getGPTExample } from "~/utils/chat_gpt_complete";
 
 type EntryState = Record<string, Fields>;
 type Fields = {
     showExample: boolean;
     showTranslation: boolean;
+    gptExample: string | undefined;
 };
 
 enum LinkLanguage {
@@ -22,13 +24,32 @@ const RawVocabList = (listData: RawVocabularyList) => {
     const [showExample, setShowExample] = useState<EntryState>({});
 
     const toggleShowExample = (lemma_id: string) => {
-        setShowExample((prevState: EntryState) => ({
-            ...prevState,
-            [lemma_id]: {
-                showTranslation: !!prevState[lemma_id]?.showTranslation,
-                showExample: !prevState[lemma_id]?.showExample,
-            },
-        }));
+        setShowExample(
+            (prevState: EntryState): EntryState => ({
+                ...prevState,
+                [lemma_id]: {
+                    gptExample: prevState[lemma_id]?.gptExample ?? undefined,
+                    showTranslation: !!prevState[lemma_id]?.showTranslation,
+                    showExample: !prevState[lemma_id]?.showExample,
+                },
+            })
+        );
+    };
+
+    const setGPTExample = (
+        gptSentence: string | undefined,
+        lemma_id: string
+    ) => {
+        setShowExample(
+            (prevState: EntryState): EntryState => ({
+                ...prevState,
+                [lemma_id]: {
+                    gptExample: gptSentence,
+                    showTranslation: !!prevState[lemma_id]?.showTranslation,
+                    showExample: !!prevState[lemma_id]?.showExample,
+                },
+            })
+        );
     };
 
     return (
@@ -51,14 +72,14 @@ const RawVocabList = (listData: RawVocabularyList) => {
                         vocabEntry.lemma && (
                             <div
                                 key={vocabEntry.lemma}
-                                className=" hover:bg-stone-900 "
+                                className=" hover:bg-stone-900 hover:outline hover:outline-1 hover:outline-orange-600"
                             >
                                 <div
-                                    className="flex h-10 flex-col overflow-clip border-b-[1px] border-b-stone-900 py-1 ps-3 text-xl transition-all duration-300"
+                                    className="flex h-11 flex-col overflow-clip border-b-[1px] border-b-stone-900 py-2 ps-3 text-xl transition-all duration-300"
                                     key={vocabEntry.lemma}
                                     id={vocabEntry.lemma}
                                 >
-                                    <div className="flex flex-row justify-between">
+                                    <div className="flex flex-row  justify-between">
                                         <div>
                                             <a
                                                 className="hover:text-orange-700"
@@ -78,8 +99,15 @@ const RawVocabList = (listData: RawVocabularyList) => {
                                             </span>
                                         </div>
                                         <button
-                                            onClick={() => {
+                                            onClick={async () => {
                                                 toggleShowExample(
+                                                    vocabEntry.lemma
+                                                );
+
+                                                setGPTExample(
+                                                    await getGPTExample(
+                                                        vocabEntry.lemma
+                                                    ),
                                                     vocabEntry.lemma
                                                 );
 
@@ -90,17 +118,21 @@ const RawVocabList = (listData: RawVocabularyList) => {
 
                                                 if (
                                                     row?.classList.contains(
-                                                        "h-40"
+                                                        "h-52"
                                                     )
                                                 ) {
                                                     row?.classList.remove(
-                                                        "h-40"
+                                                        "h-52"
                                                     );
+                                                    row?.classList.add("h-11");
                                                 } else {
-                                                    row?.classList.add("h-40");
+                                                    row?.classList.add("h-52");
+                                                    row?.classList.remove(
+                                                        "h-11"
+                                                    );
                                                 }
                                             }}
-                                            className="w-30 float-right me-1 rounded-sm bg-transparent px-2 py-1 align-middle text-sm text-stone-500 outline outline-1 outline-stone-500 hover:bg-stone-500 hover:text-stone-950"
+                                            className="float-right me-2 rounded-sm bg-transparent px-2 text-sm text-stone-500 outline outline-1 outline-stone-500 hover:bg-stone-500 hover:text-stone-950"
                                         >
                                             {showExample[vocabEntry.lemma]
                                                 ?.showExample
@@ -108,16 +140,20 @@ const RawVocabList = (listData: RawVocabularyList) => {
                                                 : "Show Example"}
                                         </button>
                                     </div>
-                                    <div className="py-2 pt-3">
+                                    <div className="">
                                         <RussianSentencer
                                             id={`${vocabEntry.lemma}_sentence`}
-                                            showExample={
+                                            showExampleState={
                                                 showExample[vocabEntry.lemma]
                                                     ?.showExample ?? false
                                             }
                                             showTranslation={
                                                 showExample[vocabEntry.lemma]
                                                     ?.showTranslation ?? false
+                                            }
+                                            gptExample={
+                                                showExample[vocabEntry.lemma]
+                                                    ?.gptExample ?? undefined
                                             }
                                             lemma={vocabEntry.lemma}
                                         />

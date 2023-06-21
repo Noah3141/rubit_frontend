@@ -108,7 +108,7 @@ const Home: NextPage = () => {
                             <div className="flex flex-row">
                                 {/* Button 1 */}
                                 <button
-                                    className="mt-4 flex h-10 w-1/2 flex-row justify-between rounded-s-sm bg-stone-600 p-2 px-2 transition-all duration-100 hover:bg-orange-700  focus:ring-inset focus:ring-orange-800 sm:w-auto"
+                                    className="mt-4 flex h-10 w-1/2 flex-row justify-between rounded-s-sm bg-stone-600 p-2 pe-1 ps-4 transition-all duration-100 hover:bg-orange-700  focus:ring-inset focus:ring-orange-800 sm:w-auto"
                                     name="Output_Breadth"
                                     id="Output_Breadth"
                                     title="Select breadth of output list"
@@ -127,7 +127,7 @@ const Home: NextPage = () => {
                                     title="Select style of output list"
                                 >
                                     Raw Vocabulary
-                                    <div className="flex flex-col content-center justify-center px-2 text-stone-100">
+                                    <div className="flex flex-col content-center justify-center pe-1 ps-2 text-stone-100">
                                         <DownArrowSharp size="12px" />
                                     </div>
                                 </button>

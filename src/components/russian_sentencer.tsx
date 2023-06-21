@@ -3,14 +3,20 @@ import { useState } from "react";
 import React from "react";
 import type { EntryState } from "./vocab_list";
 
+import { Triangle } from "react-loader-spinner";
+
 const RussianSentencer = (props: {
     id: string;
-    showExample: boolean;
+    showExampleState: boolean;
     showTranslation: boolean;
     lemma: string;
+    gptExample: string | undefined;
 }) => {
-    const [sentence, setSentence] = useState(null);
-    const [trans, setTrans] = useState(null);
+    const { id, showExampleState, showTranslation, lemma, gptExample } = props;
+
+    const [sentence, setSentence] = useState<string | null>(null);
+    const [trans, setTrans] = useState<string | null>(null);
+    const [isLoading, setIsLoading] = useState<boolean>(false);
 
     const [showExample, setShowExample] = useState<EntryState>({});
 
@@ -18,26 +24,47 @@ const RussianSentencer = (props: {
         setShowExample((prevState: EntryState) => ({
             ...prevState,
             [lemma_id]: {
+                gptExample: prevState[lemma_id]?.gptExample ?? undefined,
                 showTranslation: !prevState[lemma_id]?.showTranslation,
                 showExample: !!prevState[lemma_id]?.showExample,
             },
         }));
     };
 
-    if (props.showExample == false) {
-        return <></>;
-    } else {
+    if (showExampleState == false) {
+        return <div className="flex flex-row justify-between"></div>;
+    } else if (isLoading == true) {
+        return (
+            <div className="mt-8 flex flex-row justify-center">
+                <Triangle
+                    height="90"
+                    width="90"
+                    color="#c2410c"
+                    ariaLabel="triangle-loading"
+                    wrapperStyle={{}}
+                    wrapperClass=""
+                    visible={true}
+                />
+            </div>
+        );
+    } else if (typeof gptExample == "string") {
+        const russOutput = gptExample.split(" (")[0];
+        const engOutput = gptExample
+            .split(" (")[1]
+            ?.replace("(", "")
+            .replace(")", "");
+
+        setSentence(russOutput ?? null);
+        setTrans(engOutput ?? null);
+
         return (
             <>
-                <div className="flex flex-row justify-between">
-                    <div className="pe-4">
-                        ChatGPT generated example Russian sentence here.{" "}
-                        <i>Cum eligendi eum quo quos aperiam delectus.</i>
-                    </div>
+                <div className="flex flex-row justify-between py-2 pt-4 ">
+                    <div className="pe-4 ">{sentence}</div>
                     <div>
                         <button
                             onClick={() => toggleShowTranslation(props.lemma)}
-                            className="w-30 float-right me-1 whitespace-nowrap rounded-sm bg-transparent px-2 py-1 align-middle text-sm text-stone-500 outline outline-1 outline-stone-500 hover:bg-stone-500 hover:text-stone-950"
+                            className="w-30 float-right me-2 whitespace-nowrap rounded-sm bg-transparent px-2 py-1 align-middle text-sm text-stone-500 outline outline-1 outline-stone-500 hover:bg-stone-500 hover:text-stone-950"
                         >
                             {showExample[props.lemma]?.showTranslation
                                 ? "Hide English"
@@ -45,10 +72,8 @@ const RussianSentencer = (props: {
                         </button>
                     </div>
                 </div>
-                <div>
-                    {showExample[props.lemma]?.showTranslation
-                        ? "And here is ChatGPT's translation"
-                        : null}
+                <div className="">
+                    {showExample[props.lemma]?.showTranslation ? trans : null}
                 </div>
             </>
         );
