@@ -39,8 +39,8 @@ const VerbPairs = () => {
                 />
             </Head>
             <Header />
-            <main className="flex min-h-screen bg-stone-950 p-2 pb-16 pt-8  font-main text-xl text-stone-300 sm:flex sm:flex-col sm:items-center sm:p-8">
-                <div className="px-4 transition-all duration-200 sm:w-[600px] md:w-[700px] lg:w-[800px]">
+            <main className="w-full bg-stone-950 p-2 pb-16 pt-8 font-main text-xl text-stone-300 ">
+                <div className="mx-auto max-w-2xl px-4 transition-all duration-200">
                     <div className="flex flex-row gap-3">
                         Perfective - Imperfective 3368 Pairs
                     </div>
